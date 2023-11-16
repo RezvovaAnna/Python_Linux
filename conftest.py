@@ -42,12 +42,6 @@ def make_subfolder():
     else:
         return subfoldername, testfilename
 
-# @pytest.fixture(autouse=True)
-# def print_time():
-#     print("Start: {}".format(datetime.now().strftime("%H:%M:%S.%f")))
-#     yield
-#     print("Finish: {}".format(datetime.now().strftime("%H:%M:%S.%f")))
-
 @pytest.fixture()
 def make_bad_arx():
     checkout("cd {}; 7z a {}/arxbad -t{}".format(data["folder_in"], data["folder_out"], data["type"]), "Everything is Ok")

@@ -1,0 +1,7 @@
+folder_test: /home/user/test
+folder_test2: /home/user/test2
+folder_out: /home/user/out
+folder_in: /home/user/folder1
+count: 5
+bs: 1M
+type: 7z

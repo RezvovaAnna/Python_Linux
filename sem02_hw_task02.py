@@ -3,6 +3,7 @@
 # Доработать проект, добавив тест команды
 # расчёта хеша (h). Проверить, что хеш совпадает с рассчитанным командой crc32.
 
+
 import subprocess
 import zlib
 
@@ -28,3 +29,4 @@ def test_crc32():
     h_file = file_hash(name_file)
     print(h_file)
     assert checkout('crc32 {}'.format(name_file), '{}'.format(h_file)), 'test_crc32 FAIL'
+

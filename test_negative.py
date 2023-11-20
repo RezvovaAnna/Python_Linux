@@ -1,4 +1,5 @@
 import yaml
+
 from ssh_checkers import ssh_checkout_negative, ssh_checkout, ssh_get
 
 with open('config.yaml') as f:
@@ -7,10 +8,12 @@ with open('config.yaml') as f:
 
 class TestNegative:
 
+  
     def save_log(self, starttime, name):
         with open(name, 'w') as f:
             f.write(ssh_get(data['host'], data['user'], data['passwd'], "journalctl --since '{}'".format(starttime)))
 
+            
     def test_step1(self, clear_folders, make_files, make_bad_arx, start_time):
         # test1
         res = []
@@ -23,6 +26,7 @@ class TestNegative:
         self.save_log(start_time, "log_test_negative_1.txt")
         assert all(res), "test1 FAIL"
 
+        
     def test_step2(self, clear_folders, make_files, start_time):
         # test2
         res = []
@@ -33,7 +37,4 @@ class TestNegative:
                                          "cd {}; 7z e arx3.{}".format(data['folder_out'], data['folder_test']), "ERROR:"))
         self.save_log(start_time, "log_test_negative_2.txt")
         assert all(res), "test2 FAIL"
-
-
-
 

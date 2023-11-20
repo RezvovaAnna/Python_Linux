@@ -99,3 +99,4 @@ class TestPositive:
                                     "cd {}; 7z h {}".format(data['folder_in'], item), hash))
         self.save_log(start_time, "log_test_positive_8.txt")
         assert all(res), "test8 FAIL"
+

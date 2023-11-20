@@ -86,6 +86,7 @@ def deploy_1():
         print('Ошибка деплоя')
         return False
 
+      
 @pytest.fixture(autouse=True)
 def deploy_2():
     res = []
@@ -105,10 +106,12 @@ def deploy_2():
         print('Ошибка деплоя')
         return False
 
+      
 @pytest.fixture()
 def start_time():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+  
 @pytest.fixture(autouse=True)
 def save_stat():
     with open('stat.txt', 'w') as f:

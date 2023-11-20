@@ -1,0 +1,16 @@
+folder_test: /home/user2/test
+folder_test2: /home/user2/test2
+folder_out: /home/user2/out
+folder_in: /home/user2/folder1
+local_path_1: /home/user/p7zip-full.deb
+local_path_2: /home/user/libarchive-zip-perl_1.68-1_all.deb
+remote_path_1: /home/user2/p7zip-full.deb
+remote_path_2: /home/user2/libarchive-zip-perl_1.68-1_all.deb
+package_1: p7zip-full
+package_2: libarchive-zip-perl
+count: 5
+bs: 1M
+type: 7z
+host: 0.0.0.0
+user: user2
+passwd: api2

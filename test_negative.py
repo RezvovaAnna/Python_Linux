@@ -1,29 +1,39 @@
-import subprocess
+import yaml
+from ssh_checkers import ssh_checkout_negative, ssh_checkout, ssh_get
+
+with open('config.yaml') as f:
+    data = yaml.safe_load(f)
 
 
-folder_test = '/home/user/test'
-folder_out = '/home/user/out'
-folder_in = '/home/user/folder1'
+class TestNegative:
 
+    def save_log(self, starttime, name):
+        with open(name, 'w') as f:
+            f.write(ssh_get(data['host'], data['user'], data['passwd'], "journalctl --since '{}'".format(starttime)))
 
-def checkout(cmd, text):
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
-    print(result.stdout)
-    if (text in result.stdout or text in result.stderr) and result.returncode != 0:
-        return True
-    else:
-        return False
+    def test_step1(self, clear_folders, make_files, make_bad_arx, start_time):
+        # test1
+        res = []
+        res.append(ssh_checkout_negative(data['host'], data['user'], data['passwd'],
+                                         "cd {}; 7z a {}/arxbad.{}".format(data['folder_in'], data['folder_out'],
+                                                                           data['type']), "ERROR:"))
+        res.append(ssh_checkout_negative(data['host'], data['user'], data['passwd'],
+                                         "cd {}; 7z e  arxbad.{} -o{} -y".format(data['folder_out'],
+                                                                                 data['folder_test'], data['type']), "ERROR:"))
+        self.save_log(start_time, "log_test_negative_1.txt")
+        assert all(res), "test1 FAIL"
 
+    def test_step2(self, clear_folders, make_files, start_time):
+        # test2
+        res = []
+        res.append(ssh_checkout(data['host'], data['user'], data['passwd'],
+                                "cd {}; 7z a {}/arx2".format(data['folder_in'], data['folder_out']),
+                                "Everything is Ok"))
+        res.append(ssh_checkout_negative(data['host'], data['user'], data['passwd'],
+                                         "cd {}; 7z e arx3.{}".format(data['folder_out'], data['folder_test']), "ERROR:"))
+        self.save_log(start_time, "log_test_negative_2.txt")
+        assert all(res), "test2 FAIL"
 
-def test_step1():
-    # test1
-    res1 = checkout("cd {}; 7z e arx3.7z -o{} -y".format(folder_out, folder_in), "ERRORS:")
-    assert res1, "test1 FAIL"
-
-
-def test_step2():
-    # test2
-    assert checkout("cd {}; 7z t arx3.7z".format(folder_out), "ERRORS:"), "test2 FAIL"
 
 
 
